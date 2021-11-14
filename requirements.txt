@@ -1,4 +1,4 @@
-anyio==3.3.4
+souanyio==3.3.4
 asgiref==3.4.1
 click==8.0.3
 fastapi==0.70.0
@@ -17,3 +17,4 @@ uvicorn==0.15.0
 uvloop==0.16.0
 watchgod==0.7
 websockets==10.0
+requests>=2.26.0

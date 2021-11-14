@@ -3,6 +3,7 @@ from fastapi.params import Depends
 from sqlalchemy.orm import Session
 
 from typing import List
+from imdb_details import get_details_imdb
 
 import models, schemas
 from database import SessionLocal, engine
@@ -33,7 +34,6 @@ def post_movie(movie: schemas.MovieBase, db: Session = Depends(get_db)):
     db.refresh(new_movie)
     return new_movie
    
-
 @app.get('/movie', response_model=List[schemas.Movie])
 def get_movies(db: Session = Depends(get_db)):
     return db.query(models.Movie).all()
@@ -41,3 +41,8 @@ def get_movies(db: Session = Depends(get_db)):
 @app.get('/movie/{id}', response_model= schemas.Movie)
 def movie_by_id(id: int, db: Session = Depends(get_db)):
     return db.query(models.Movie).filter(models.Movie.id == id).first()
+
+@app.get('/movie/details/{id}')
+def get_details(id: int, db: Session = Depends(get_db)):
+    mov = db.query(models.Movie).filter(models.Movie.id == id).first()
+    return get_details_imdb(mov.name)
